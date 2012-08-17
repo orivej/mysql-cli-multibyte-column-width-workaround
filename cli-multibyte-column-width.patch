@@ -1,8 +1,8 @@
 diff --git a/sql-common/client.c b/sql-common/client.c
-index a453a1a..c810ac2 100644
+index a453a1a..9e35ed7 100644
 --- a/sql-common/client.c
 +++ b/sql-common/client.c
-@@ -1535,6 +1535,41 @@ unpack_fields(MYSQL_DATA *data,MEM_ROOT *alloc,uint fields,
+@@ -1535,6 +1535,43 @@ unpack_fields(MYSQL_DATA *data,MEM_ROOT *alloc,uint fields,
    DBUG_RETURN(result);
  }
  
@@ -23,8 +23,10 @@ index a453a1a..c810ac2 100644
 +    else
 +    {
 +      length++;
-+      if (*buf < 0xC0)
++      if (*buf < 0x80)
 +        rem= 0;
++      else if (*buf < 0xC0)
++        return size;
 +      else if (*buf < 0xE0)
 +        rem= 1;
 +      else if (*buf < 0xF0)
@@ -44,7 +46,7 @@ index a453a1a..c810ac2 100644
  /* Read all rows (fields or data) from server */
  
  MYSQL_DATA *cli_read_rows(MYSQL *mysql,MYSQL_FIELD *mysql_fields,
-@@ -1609,6 +1644,7 @@ MYSQL_DATA *cli_read_rows(MYSQL *mysql,MYSQL_FIELD *mysql_fields,
+@@ -1609,6 +1646,7 @@ MYSQL_DATA *cli_read_rows(MYSQL *mysql,MYSQL_FIELD *mysql_fields,
  	cp+=len;
  	if (mysql_fields)
  	{
