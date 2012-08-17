@@ -2,3 +2,5 @@ MySQL command line tools display text columns as if their width is determined by
 
 Related issue in the official bug tracker:
 - https://dev.mysql.com/worklog/task/?id=2598
+
+The patch is generated against MySQL 5.5.22.
